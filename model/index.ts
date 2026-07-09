@@ -2,6 +2,7 @@ import { Database } from "@nozbe/watermelondb";
 import SQLiteAdapter from "@nozbe/watermelondb/adapters/sqlite";
 import migrations from "./migrations";
 import Product from "./Product";
+import Sale from "./Sale";
 import schema from "./schema";
 
 let database: Database | null = null;
@@ -24,7 +25,7 @@ export function getDatabase() {
 
     database = new Database({
       adapter,
-      modelClasses: [Product],
+      modelClasses: [Product, Sale],
     });
     console.log("Index.ts::Database initialized successfully.");
 
