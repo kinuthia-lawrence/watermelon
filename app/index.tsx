@@ -1,20 +1,21 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import NetInfo from "@react-native-community/netinfo";
 import { getDatabase } from "@/model";
 import Product from "@/model/Product";
 import Sale from "@/model/Sale";
 import { Q } from "@nozbe/watermelondb";
+import NetInfo from "@react-native-community/netinfo";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+    ActivityIndicator,
+    FlatList,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const seedProducts = [
@@ -28,7 +29,7 @@ const money = (value: number | string) => {
   return `$${numeric.toFixed(2)}`;
 };
 
-const API_BASE_URL = "https://66ac-197-248-138-195.ngrok-free.app/";
+const API_BASE_URL = "https://66ac-197-248-138-195.ngrok-free.app";
 
 export default function Index() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -440,7 +441,10 @@ export default function Index() {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.screen}
       >
-        <View style={styles.content}>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
           <View style={styles.header}>
             <Text style={styles.kicker}>QuickStock</Text>
             <Text style={styles.title}>Offline-first inventory</Text>
@@ -608,6 +612,7 @@ export default function Index() {
               keyExtractor={(item) => item.id}
               renderItem={renderProduct}
               contentContainerStyle={styles.listContent}
+              scrollEnabled={false}
               showsVerticalScrollIndicator={false}
               ListFooterComponent={
                 <View style={styles.footerSection}>
@@ -628,7 +633,7 @@ export default function Index() {
               }
             />
           )}
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -638,7 +643,7 @@ export default function Index() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: "#ffffff" },
   content: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 18,
     paddingTop: 16,
     paddingBottom: 12,
